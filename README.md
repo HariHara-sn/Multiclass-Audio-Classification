@@ -87,8 +87,8 @@ results = classify_audio("path_to_your_audio.wav")
 print(results)
 # Output: {"English": 0.95, "Welsh": 0.02, "Kabyle": 0.01, "Chinese_China": 0.01, "Russian": 0.01}
 ```
-## 🖼 Sample Output (Visualization)
+## Sample Output (Visualization)
 
 Below is an example output from **online audio classification** with ~95% confidence:
 
-![Online Audio Classification Output](POC_IMAGES/online_audio_95%_1.png)
+![Online Audio Classification Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/audio-url-input/POC_IMAGES/online_audio_95%25_2.png?raw=true)
