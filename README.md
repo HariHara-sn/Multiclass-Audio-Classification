@@ -91,4 +91,4 @@ print(results)
 
 Below is an example output from **online audio classification** with ~95% confidence:
 
-![Online Audio Classification Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/audio-url-input/POC_IMAGES/online_audio_95%25_2.png?raw=true)
+![Online Audio Classification Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/audio-local-v2/POC_IMAGES/online_audio_100%25_3.png?raw=true)
