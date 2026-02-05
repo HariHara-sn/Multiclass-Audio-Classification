@@ -50,6 +50,17 @@ The model classifies audio into 5 languages:
 4. Chinese_China
 5. Russian
 
+## 📌 How many languages it supports
+
+The model is fine-tuned on the FLEURS dataset, which contains speech in 102 languages
+
+This model was trained on Google’s FLEURS dataset, which was designed for multilingual speech tasks and includes:
+
+✔ 102 languages spanning Europe, Africa, Asia, and beyond
+✔ Balanced speech across languages for training & evaluation
+
+So the language-ID head learned classification across all 102 defined labels.
+
 ## Installation
 
 ```bash
@@ -83,12 +94,21 @@ MODEL_NAME=<your_pretrained_model_name>
 ## Usage
 
 ```python
-results = classify_audio("path_to_your_audio.wav")
+path = "Testing/audio/harvard.wav"
+url = "https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac"
+
+audio, sr = load_audio_from_url(url) #public url 
+audio, sr = load_audio_from_file(path) # local audio
+
+display(Audio(audio, rate=sr))
+
+results = classify_language(classifier, audio, sr)
+
 print(results)
 # Output: {"English": 0.95, "Welsh": 0.02, "Kabyle": 0.01, "Chinese_China": 0.01, "Russian": 0.01}
 ```
-## 🖼 Sample Output (Visualization)
+## Sample Output (Visualization)
 
-Below is an example output from **online audio classification** with ~95% confidence:
+Below is an example output from **local audio classification** with ~95% confidence:
 
-![Online Audio Classification Output](POC_IMAGES/online_audio_95%_1.png)
+![Online Audio Classification Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/audio-local-v2/POC_IMAGES/online_audio_100%25_3.png?raw=true)

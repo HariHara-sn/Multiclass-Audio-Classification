@@ -4,8 +4,8 @@ import torch
 import os
 
 MODEL_ID = os.getenv(
-    "LANG_ID_MODEL",
-    "sanchit-gandhi/whisper-medium-fleurs-lang-id"
+    "MODEL_ID",
+    "sanchit-gandhi/whisper-medium-fleurs-lang-id" #fall back
 )
 
 DEVICE = 0 if torch.cuda.is_available() else -1
