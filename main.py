@@ -12,7 +12,7 @@ def main():
     print("Model loaded successfully")
 
     # url = "https://huggingface.co/datasets/Narsil/asr_dummy/resolve/main/mlk.flac"
-    path = "Testing/audio/harvard.wav"
+    path = "Testing/audio/Tamil/Ta-இந்திய_தேசிய_மொழி.ogg.mp3"
 
     # audio, sr = load_audio_from_url(url) 
     audio, sr = load_audio_from_file(path)
@@ -22,7 +22,7 @@ def main():
     results = classify_language(classifier, audio, sr)
 
     for r in results:
-        print(f"{r['label']:15s} {r['score']:.4f}")
+        print(f"{r['label']:15s} {r['score']:.5f}")
 
 if __name__ == "__main__":
     main()
