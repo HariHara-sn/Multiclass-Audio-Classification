@@ -1,27 +1,54 @@
-# Multiclass Audio Classification
+# 🎧 Multiclass Audio Classification (Language Identification)
 
-A PyTorch-based audio classification system that uses Hugging Face's Wav2Vec2 model to classify audio files across multiple languages.
-## Key Functions
+A **PyTorch-based multilingual audio classification system** built using **Hugging Face Transformers (Wav2Vec2)** to identify the language spoken in an audio file.
+The system supports **both public audio URLs and local audio files** and outputs **confidence scores per language**.
 
-### `load_audio(path)`
+---
+## Overview
+The system is developed incrementally across clearly versioned milestones:
 
-- Loads an audio file using librosa
-- Resamples to 16kHz (required by Wav2Vec2)
-- Returns audio array
+* **Version 1.0.0** – [Basic Language Classification](https://github.com/HariHara-sn/Text-Detection-and-Extraction-using-OpenCV-OCR-and-LLM/tree/Sample-Extraction)
+* **Version 2.0.0** – [Extended Audio Input Support](https://github.com/HariHara-sn/Text-Detection-and-Extraction-using-OpenCV-OCR-and-LLM/tree/medical-prescription-extraction)
+* **Version 3.0.0** – [under construction]()
+* **Version 4.0.0** – [not yet released]()
 
-### `classify_audio(audio_path)`
 
-- Preprocesses audio with Wav2Vec2Processor
-- Runs inference through the model
-- Applies softmax for probability scores
-- Returns dict with classification probabilities for each label
+## Tech Stack
 
-## 🧠 Model
-
-* **Model type:** Multiclass audio classification
+* **Goal:** Language Identification (LID)
+* **Model:** Wav2Vec2 (fine-tuned on FLEURS)
 * **Framework:** PyTorch + Hugging Face Transformers
-* **Task:** Language Identification
-* **Model source:** Hugging Face Hub (configurable via environment variable)
+* **Input:** Any spoken audio (local file or public URL)
+* **Output:** Language probabilities (softmax scores)
+* **Languages Supported:** **102 languages**
+
+---
+
+## Model Details
+
+* **Model Type:** Multiclass Audio Classification
+* **Architecture:** Transformer-based Wav2Vec2
+* **Dataset:** Google **FLEURS**
+* **Sampling Rate:** 16 kHz (mandatory)
+* **Output Head:** Softmax over 102 language labels
+
+> The FLEURS dataset is designed for multilingual speech tasks and provides balanced speech samples across languages, enabling robust language identification.
+
+
+---
+## 📌 How many languages it supports
+
+The model is fine-tuned on the FLEURS dataset, which contains speech in 102 languages
+
+This model was trained on Google’s FLEURS dataset, which was designed for multilingual speech tasks and includes:
+
+✔ **102 languages** across:
+
+* Asia (Tamil, Hindi, Chinese, Japanese, etc.)
+* Europe (English, French, German, etc.)
+* Africa
+* Middle East
+* Low-resource languages
 
 ---
 
@@ -40,49 +67,32 @@ src/
     └── services/
         └── inference.py
 ```
-## Supported Languages
 
-The model classifies audio into 5 languages:
+## ⚙️ Core Functions
 
-1. English
-2. Welsh
-3. Kabyle
-4. Chinese_China
-5. Russian
+### `load_audio(path | url)`
 
-## 📌 How many languages it supports
+* Loads audio using `librosa` / `soundfile`
+* Converts stereo → mono
+* Resamples to **16 kHz**
+* Normalizes amplitude
 
-The model is fine-tuned on the FLEURS dataset, which contains speech in 102 languages
+---
 
-This model was trained on Google’s FLEURS dataset, which was designed for multilingual speech tasks and includes:
+### `classify_language(audio, sample_rate)`
 
-✔ 102 languages spanning Europe, Africa, Asia, and beyond
-✔ Balanced speech across languages for training & evaluation
+* Extracts features using `Wav2Vec2Processor`
+* Runs inference via transformer
+* Applies softmax
+* Returns ranked language probabilities
 
-So the language-ID head learned classification across all 102 defined labels.
+---
 
-## Installation
+## ▶️ Installation
 
 ```bash
 pip install -r requirements.txt
 ```
-## ▶️ Running the application
-
-From the project root:
-
-```bash
-python -m app.py
-```
-
-This will:
-
-1. Load the model
-2. Load the audio input
-3. Run language classification
-4. Print top predictions with confidence scores
-
----
-
 ## Environment Variables
 
 Create a `.env` file and set:
@@ -90,6 +100,26 @@ Create a `.env` file and set:
 ```
 MODEL_NAME=<your_pretrained_model_name>
 ```
+
+## ▶️ Running the Application
+
+From the project root:
+
+```bash
+python -m app.main
+```
+
+This will:
+
+1. Load the pretrained model
+2. Load audio input (URL or local)
+3. Perform language classification
+4. Print confidence scores
+
+---
+
+
+
 
 ## Usage
 
@@ -105,10 +135,36 @@ display(Audio(audio, rate=sr))
 results = classify_language(classifier, audio, sr)
 
 print(results)
-# Output: {"English": 0.95, "Welsh": 0.02, "Kabyle": 0.01, "Chinese_China": 0.01, "Russian": 0.01}
 ```
-## Sample Output (Visualization)
+### Sample Output
 
-Below is an example output from **local audio classification** with ~95% confidence:
+```json
+{
+  "English": 0.95,
+  "Welsh": 0.02,
+  "Kabyle": 0.01,
+  "Chinese_China": 0.01,
+  "Russian": 0.01
+}
+```
 
-![Online Audio Classification Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/audio-local-v2/POC_IMAGES/online_audio_100%25_3.png?raw=true)
+### Online Audio Classification (~100%)
+
+![Online Audio Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/audio-local-v2/POC_IMAGES/online_audio_100%25_3.png?raw=true)
+
+### Tamil Audio Classification (~99%)
+
+![Tamil Audio Output](https://github.com/HariHara-sn/Multiclass-Audio-Classification/blob/main/POC_IMAGES/Tamil_audio_99%25_4.png?raw=true)
+
+---
+
+## 🔊 Audio Samples for Testing
+
+### Tamil
+
+🔗 [https://commons.wikimedia.org/wiki/Category:Audio_files_in_Tamil](https://commons.wikimedia.org/wiki/Category:Audio_files_in_Tamil)
+
+### English
+
+🔗 [https://www.kaggle.com/datasets/pavanelisetty/sample-audio-files-for-speech-recognition](https://www.kaggle.com/datasets/pavanelisetty/sample-audio-files-for-speech-recognition)
+
